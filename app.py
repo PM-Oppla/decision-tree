@@ -20,14 +20,13 @@ st.markdown(
     """
     <style>
 
-    /* --------------------------------------------------------
-       CircHive colour palette
-       Yellow:   #f9b000
-       Orange:   #ec6608
-       Red:      #e6332a
-       Hot pink: #e5006d
-       Grey:     #575756
-       -------------------------------------------------------- */
+    /* CircHive colour palette:
+       Yellow   #f9b000
+       Orange   #ec6608
+       Red      #e6332a
+       Hot pink #e5006d
+       Grey     #575756
+    */
 
     .block-container {
         max-width: 850px;
@@ -67,7 +66,7 @@ st.markdown(
         color: #575756;
     }
 
-    /* Small gradient divider */
+    /* CircHive gradient */
 
     .circhive-divider {
         height: 5px;
@@ -83,7 +82,7 @@ st.markdown(
         );
     }
 
-    /* Primary Streamlit button */
+    /* Primary button */
 
     div.stButton > button[kind="primary"] {
         background: #ec6608;
@@ -135,7 +134,7 @@ st.markdown(
         font-size: 0.95rem;
     }
 
-    /* About CircHive footer */
+    /* CircHive footer */
 
     .circhive-footer {
         margin-top: 35px;
@@ -189,6 +188,10 @@ st.markdown(
 logo_path = Path("assets/circhive-logo.png")
 partners_path = Path("assets/circhive-partners-funders.png")
 
+# ------------------------------------------------------------
+# Header
+# ------------------------------------------------------------
+
 if logo_path.exists():
     st.image(str(logo_path), width=300)
 else:
@@ -213,6 +216,7 @@ st.markdown(
         and what they want to achieve.
         </p>
     </div>
+
     <div class="circhive-divider"></div>
     """,
     unsafe_allow_html=True
@@ -353,162 +357,161 @@ def recommend_methods(selected_q1, selected_q2, selected_q3):
 
 st.header("1. Biodiversity mainstreaming")
 
-q1_options = ["Select an option"] + list(Q1_methods.keys())
-
 selected_q1 = st.selectbox(
     "How far are you in your biodiversity mainstreaming journey?",
-    options=q1_options,
-    index=0
+    options=list(Q1_methods.keys()),
+    index=None,
+    placeholder="Select an option"
 )
-
-if selected_q1 == "Select an option":
-    st.info("Select an option above to continue.")
-    st.stop()
-
-allowed_after_q1 = Q1_methods[selected_q1]
-
 
 # ------------------------------------------------------------
 # Question 2
 # ------------------------------------------------------------
 
-st.header("2. Purpose")
+selected_q2 = None
+selected_q3 = None
 
-filtered_q2 = filter_by_overlap(
-    allowed_after_q1,
-    Q2_methods
-)
+if selected_q1 is not None:
 
-q2_options = ["Select an option"] + list(filtered_q2.keys())
+    allowed_after_q1 = Q1_methods[selected_q1]
 
-selected_q2 = st.selectbox(
-    "What is your overall purpose?",
-    options=q2_options,
-    index=0
-)
-
-if selected_q2 == "Select an option":
-    st.info("Select an option above to continue.")
-    st.stop()
-
-allowed_after_q2 = (
-    allowed_after_q1
-    & Q2_methods[selected_q2]
-)
-
-
-# ------------------------------------------------------------
-# Question 3
-# ------------------------------------------------------------
-
-st.header("3. Organisational focus")
-
-filtered_q3 = filter_by_overlap(
-    allowed_after_q2,
-    Q3_methods
-)
-
-q3_options = ["Select an option"] + list(filtered_q3.keys())
-
-selected_q3 = st.selectbox(
-    "What aspect of your organisation do you want to focus on?",
-    options=q3_options,
-    index=0
-)
-
-if selected_q3 == "Select an option":
-    st.info("Select an option above to continue.")
-    st.stop()
-
-
-# ------------------------------------------------------------
-# Recommendation
-# ------------------------------------------------------------
-
-if st.button(
-    "Show recommendation",
-    type="primary"
-):
-
-    strict, ranked = recommend_methods(
-        selected_q1,
-        selected_q2,
-        selected_q3
+    filtered_q2 = filter_by_overlap(
+        allowed_after_q1,
+        Q2_methods
     )
 
-    st.markdown("---")
+    st.header("2. Purpose")
 
-    st.header("Your suggested approach")
+    selected_q2 = st.selectbox(
+        "What is your overall purpose?",
+        options=list(filtered_q2.keys()),
+        index=None,
+        placeholder="Select an option"
+    )
 
-    if strict:
+    # --------------------------------------------------------
+    # Question 3
+    # --------------------------------------------------------
 
-        methods_html = "".join(
-            f'<div class="recommendation-method">{method}</div>'
-            for method in sorted(strict)
+    if selected_q2 is not None:
+
+        allowed_after_q2 = (
+            allowed_after_q1
+            & Q2_methods[selected_q2]
         )
 
-        st.markdown(
-            f"""
-            <div class="recommendation-card">
-                <div class="recommendation-label">
-                    Recommended method
-                </div>
-
-                {methods_html}
-
-                <p class="recommendation-note">
-                    Based on your answers to the three questions above.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
+        filtered_q3 = filter_by_overlap(
+            allowed_after_q2,
+            Q3_methods
         )
 
-    elif ranked:
+        st.header("3. Organisational focus")
 
-        best_score = ranked[0][1]
-
-        best = [
-            method
-            for method, score in ranked
-            if score == best_score
-            and method in allowed_after_q1
-        ]
-
-        if best:
-
-            methods_html = "".join(
-                f'<div class="recommendation-method">{method}</div>'
-                for method in best
-            )
-
-            st.markdown(
-                f"""
-                <div class="recommendation-card">
-                    <div class="recommendation-label">
-                        Best candidate method
-                    </div>
-
-                    {methods_html}
-
-                    <p class="recommendation-note">
-                        No single method matches all three criteria exactly.
-                        These are the closest matches based on your answers.
-                    </p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-
-        else:
-            st.warning(
-                "No method matches the selected criteria."
-            )
-
-    else:
-        st.warning(
-            "No recommendation could be generated."
+        selected_q3 = st.selectbox(
+            "What aspect of your organisation do you want to focus on?",
+            options=list(filtered_q3.keys()),
+            index=None,
+            placeholder="Select an option"
         )
+
+        # ----------------------------------------------------
+        # Recommendation
+        # ----------------------------------------------------
+
+        if selected_q3 is not None:
+
+            if st.button(
+                "Show recommendation",
+                type="primary"
+            ):
+
+                strict, ranked = recommend_methods(
+                    selected_q1,
+                    selected_q2,
+                    selected_q3
+                )
+
+                st.markdown("---")
+
+                st.header("Your suggested approach")
+
+                if strict:
+
+                    methods_html = "".join(
+                        f'<div class="recommendation-method">{method}</div>'
+                        for method in sorted(strict)
+                    )
+
+                    st.markdown(
+                        f"""
+                        <div class="recommendation-card">
+
+                            <div class="recommendation-label">
+                                Recommended method
+                            </div>
+
+                            {methods_html}
+
+                            <p class="recommendation-note">
+                                Based on your answers to the three
+                                questions above.
+                            </p>
+
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+
+                elif ranked:
+
+                    best_score = ranked[0][1]
+
+                    best = [
+                        method
+                        for method, score in ranked
+                        if score == best_score
+                        and method in allowed_after_q1
+                    ]
+
+                    if best:
+
+                        methods_html = "".join(
+                            f'<div class="recommendation-method">{method}</div>'
+                            for method in best
+                        )
+
+                        st.markdown(
+                            f"""
+                            <div class="recommendation-card">
+
+                                <div class="recommendation-label">
+                                    Best candidate method
+                                </div>
+
+                                {methods_html}
+
+                                <p class="recommendation-note">
+                                    No single method matches all three
+                                    criteria exactly. These are the closest
+                                    matches based on your answers.
+                                </p>
+
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+
+                    else:
+
+                        st.warning(
+                            "No method matches the selected criteria."
+                        )
+
+                else:
+
+                    st.warning(
+                        "No recommendation could be generated."
+                    )
 
 
 # ------------------------------------------------------------
@@ -542,9 +545,13 @@ st.markdown(
         </p>
 
         <p>
-        <a href="https://circhive.eu/" target="_blank">
-        Visit the CircHive website →
-        </a>
+            <a
+                href="https://circhive.eu/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Visit the CircHive website →
+            </a>
         </p>
 
     </div>
@@ -552,17 +559,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# ------------------------------------------------------------
+# Partners and funders
+# ------------------------------------------------------------
+
 st.markdown(
     '<div class="funding-heading">CircHive partners and funders</div>',
     unsafe_allow_html=True
 )
 
 if partners_path.exists():
+
     st.image(
         str(partners_path),
         use_container_width=True
     )
+
 else:
+
     st.caption(
         "CircHive partner and funder graphic will appear here."
     )
