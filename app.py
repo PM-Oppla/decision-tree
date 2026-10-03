@@ -20,14 +20,6 @@ st.markdown(
     """
     <style>
 
-    /* CircHive colour palette:
-       Yellow   #f9b000
-       Orange   #ec6608
-       Red      #e6332a
-       Hot pink #e5006d
-       Grey     #575756
-    */
-
     .block-container {
         max-width: 850px;
         padding-top: 2.5rem;
@@ -51,8 +43,6 @@ st.markdown(
         line-height: 1.55;
     }
 
-    /* Intro panel */
-
     .circhive-intro {
         border-left: 5px solid #ec6608;
         background: #fafafa;
@@ -65,8 +55,6 @@ st.markdown(
         margin: 0;
         color: #575756;
     }
-
-    /* CircHive gradient */
 
     .circhive-divider {
         height: 5px;
@@ -81,8 +69,6 @@ st.markdown(
             #e5006d 100%
         );
     }
-
-    /* Primary button */
 
     div.stButton > button[kind="primary"] {
         background: #ec6608;
@@ -99,8 +85,6 @@ st.markdown(
         border-color: #e6332a;
         color: white;
     }
-
-    /* Recommendation card */
 
     .recommendation-card {
         margin-top: 15px;
@@ -134,31 +118,6 @@ st.markdown(
         font-size: 0.95rem;
     }
 
-    /* CircHive footer */
-
-    .circhive-footer {
-        margin-top: 35px;
-        padding: 24px 26px;
-        background: #f6f6f6;
-        border-radius: 10px;
-    }
-
-    .circhive-footer h3 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        color: #575756;
-    }
-
-    .circhive-footer a {
-        color: #e6332a;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    .circhive-footer a:hover {
-        text-decoration: underline;
-    }
-
     .funding-heading {
         margin-top: 35px;
         margin-bottom: 12px;
@@ -167,13 +126,6 @@ st.markdown(
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-    }
-
-    .funding-note {
-        color: #6b6b6b;
-        font-size: 0.82rem;
-        line-height: 1.45;
-        margin-top: 12px;
     }
 
     </style>
@@ -195,10 +147,7 @@ partners_path = Path("assets/circhive-partners-funders.png")
 if logo_path.exists():
     st.image(str(logo_path), width=300)
 else:
-    st.markdown(
-        "<div style='font-size:2rem;font-weight:700;color:#575756;'>CircHive</div>",
-        unsafe_allow_html=True
-    )
+    st.markdown("## CircHive")
 
 st.title("Biodiversity Decision Tool")
 
@@ -365,7 +314,7 @@ selected_q1 = st.selectbox(
 )
 
 # ------------------------------------------------------------
-# Question 2
+# Progressive questions
 # ------------------------------------------------------------
 
 selected_q2 = None
@@ -388,10 +337,6 @@ if selected_q1 is not None:
         index=None,
         placeholder="Select an option"
     )
-
-    # --------------------------------------------------------
-    # Question 3
-    # --------------------------------------------------------
 
     if selected_q2 is not None:
 
@@ -502,17 +447,14 @@ if selected_q1 is not None:
                         )
 
                     else:
-
                         st.warning(
                             "No method matches the selected criteria."
                         )
 
                 else:
-
                     st.warning(
                         "No recommendation could be generated."
                     )
-
 
 # ------------------------------------------------------------
 # About this tool
@@ -527,36 +469,20 @@ with st.expander("About this tool"):
         "purpose and area of focus."
     )
 
-
 # ------------------------------------------------------------
 # CircHive footer
 # ------------------------------------------------------------
 
-st.markdown(
-    """
-    <div class="circhive-footer">
+st.header("About CircHive")
 
-        <h3>About CircHive</h3>
+st.write(
+    "CircHive supports businesses and public sector organisations "
+    "in recognising, measuring and reporting on their impacts on nature."
+)
 
-        <p>
-        CircHive supports businesses and public sector organisations
-        in recognising, measuring and reporting on their impacts
-        on nature.
-        </p>
-
-        <p>
-            <a
-                href="https://circhive.eu/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Visit the CircHive website →
-            </a>
-        </p>
-
-    </div>
-    """,
-    unsafe_allow_html=True
+st.link_button(
+    "Visit the CircHive website →",
+    "https://circhive.eu/"
 )
 
 # ------------------------------------------------------------
@@ -569,24 +495,11 @@ st.markdown(
 )
 
 if partners_path.exists():
-
     st.image(
         str(partners_path),
         use_container_width=True
     )
-
 else:
-
     st.caption(
         "CircHive partner and funder graphic will appear here."
     )
-
-st.markdown(
-    """
-    <p class="funding-note">
-    This work was co-funded by UK Research and Innovation (UKRI)
-    under the UK government's Horizon Europe funding guarantee.
-    </p>
-    """,
-    unsafe_allow_html=True
-)
