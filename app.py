@@ -86,38 +86,6 @@ st.markdown(
         color: white;
     }
 
-    .recommendation-card {
-        margin-top: 15px;
-        padding: 24px 26px;
-        border-radius: 10px;
-        background: #fafafa;
-        border-top: 5px solid #ec6608;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .recommendation-label {
-        color: #e6332a;
-        font-size: 0.95rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-bottom: 10px;
-    }
-
-    .recommendation-method {
-        color: #575756;
-        font-size: 1.35rem;
-        font-weight: 700;
-        margin: 5px 0;
-    }
-
-    .recommendation-note {
-        color: #6b6b6b;
-        margin-top: 14px;
-        margin-bottom: 0;
-        font-size: 0.95rem;
-    }
-
     .funding-heading {
         margin-top: 35px;
         margin-bottom: 12px;
@@ -377,34 +345,17 @@ if selected_q1 is not None:
                 )
 
                 st.markdown("---")
-
                 st.header("Your suggested approach")
 
                 if strict:
 
-                    methods_html = "".join(
-                        f'<div class="recommendation-method">{method}</div>'
-                        for method in sorted(strict)
-                    )
+                    st.success("Recommended method")
 
-                    st.markdown(
-                        f"""
-                        <div class="recommendation-card">
+                    for method in sorted(strict):
+                        st.subheader(method)
 
-                            <div class="recommendation-label">
-                                Recommended method
-                            </div>
-
-                            {methods_html}
-
-                            <p class="recommendation-note">
-                                Based on your answers to the three
-                                questions above.
-                            </p>
-
-                        </div>
-                        """,
-                        unsafe_allow_html=True
+                    st.caption(
+                        "Based on your answers to the three questions above."
                     )
 
                 elif ranked:
@@ -420,30 +371,15 @@ if selected_q1 is not None:
 
                     if best:
 
-                        methods_html = "".join(
-                            f'<div class="recommendation-method">{method}</div>'
-                            for method in best
-                        )
+                        st.info("Best candidate method")
 
-                        st.markdown(
-                            f"""
-                            <div class="recommendation-card">
+                        for method in best:
+                            st.subheader(method)
 
-                                <div class="recommendation-label">
-                                    Best candidate method
-                                </div>
-
-                                {methods_html}
-
-                                <p class="recommendation-note">
-                                    No single method matches all three
-                                    criteria exactly. These are the closest
-                                    matches based on your answers.
-                                </p>
-
-                            </div>
-                            """,
-                            unsafe_allow_html=True
+                        st.caption(
+                            "No single method matches all three criteria "
+                            "exactly. These are the closest matches based "
+                            "on your answers."
                         )
 
                     else:
