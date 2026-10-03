@@ -153,9 +153,9 @@ st.header("1. Biodiversity mainstreaming")
 
 selected_q1 = st.selectbox(
     "How far are you in your biodiversity mainstreaming journey?",
-    options=[None] + list(Q1_methods.keys()),
-    index=0,
-    placeholder="Select one option"
+    options=list(Q1_methods.keys()),
+    index=None,
+    placeholder="Select an option"
 )
 
 if selected_q1 is None:
@@ -178,9 +178,9 @@ filtered_q2 = filter_by_overlap(
 
 selected_q2 = st.selectbox(
     "What is your overall purpose?",
-    options=[None] + list(filtered_q2.keys()),
-    index=0,
-    placeholder="Select one option"
+    options=list(filtered_q2.keys()),
+    index=None,
+    placeholder="Select an option"
 )
 
 if selected_q2 is None:
@@ -205,9 +205,9 @@ filtered_q3 = filter_by_overlap(
 
 selected_q3 = st.selectbox(
     "What aspect of your organisation do you want to focus on?",
-    options=[None] + list(filtered_q3.keys()),
-    index=0,
-    placeholder="Select one option"
+    options=list(filtered_q3.keys()),
+    index=None,
+    placeholder="Select an option"
 )
 
 if selected_q3 is None:
