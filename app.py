@@ -203,6 +203,15 @@ Q2_methods = {
     },
 }
 
+# IMPORTANT:
+# "Operations" now uses Life Cycle Assessment rather than
+# "Life Cycle Assessment (limited)" so that it correctly overlaps
+# with LCA selections from Questions 1 and 2.
+#
+# "Landscapes" does not use Qualitative Assessment. This prevents
+# Landscapes appearing in QA-only routes such as Starting and
+# Developing > Screening.
+
 Q3_methods = {
     "Whole organization": {
         "Qualitative Assessment",
@@ -212,7 +221,7 @@ Q3_methods = {
         "Natural Capital Accounting for Ecosystem Services"
     },
     "Operations": {
-        "Life Cycle Assessment (limited)",
+        "Life Cycle Assessment",
         "Natural Capital Accounting for Biodiversity Footprinting",
         "Natural Capital Accounting for Ecosystem Services"
     },
@@ -230,7 +239,6 @@ Q3_methods = {
         "Natural Capital Accounting for Biodiversity Footprinting"
     },
     "Landscapes": {
-        "Qualitative Assessment",
         "Natural Capital Accounting for Biodiversity Footprinting",
         "Natural Capital Accounting for Ecosystem Services"
     },
