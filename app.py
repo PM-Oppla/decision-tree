@@ -1,3 +1,4 @@
+
 import streamlit as st
 from collections import Counter
 from pathlib import Path
@@ -203,14 +204,11 @@ Q2_methods = {
     },
 }
 
-# IMPORTANT:
-# "Operations" now uses Life Cycle Assessment rather than
-# "Life Cycle Assessment (limited)" so that it correctly overlaps
-# with LCA selections from Questions 1 and 2.
+# "Operations" uses Life Cycle Assessment so that it
+# correctly overlaps with LCA selections from Q1 and Q2.
 #
-# "Landscapes" does not use Qualitative Assessment. This prevents
-# Landscapes appearing in QA-only routes such as Starting and
-# Developing > Screening.
+# "Landscapes" excludes Qualitative Assessment to prevent
+# its appearance in QA-only routes.
 
 Q3_methods = {
     "Whole organization": {
@@ -355,6 +353,8 @@ if selected_q1 is not None:
                 st.markdown("---")
                 st.header("Your suggested approach")
 
+                recommendation_found = False
+
                 if strict:
 
                     st.success("Recommended method")
@@ -365,6 +365,8 @@ if selected_q1 is not None:
                     st.caption(
                         "Based on your answers to the three questions above."
                     )
+
+                    recommendation_found = True
 
                 elif ranked:
 
@@ -390,6 +392,8 @@ if selected_q1 is not None:
                             "on your answers."
                         )
 
+                        recommendation_found = True
+
                     else:
                         st.warning(
                             "No method matches the selected criteria."
@@ -398,6 +402,29 @@ if selected_q1 is not None:
                 else:
                     st.warning(
                         "No recommendation could be generated."
+                    )
+
+                # ------------------------------------------------
+                # NEW: Biodiversity Footprinting Guidance
+                # ------------------------------------------------
+
+                if recommendation_found:
+
+                    st.markdown("---")
+
+                    st.subheader(
+                        "Biodiversity Footprinting Guidance"
+                    )
+
+                    st.write(
+                        "Explore CircHive's practical guidance to help "
+                        "organisations understand and apply biodiversity "
+                        "footprinting approaches."
+                    )
+
+                    st.link_button(
+                        "📥 View Biodiversity Footprinting Guidance",
+                        "https://circhive.eu/circhive/biodiversity-footprinting-guidance"
                     )
 
 # ------------------------------------------------------------
