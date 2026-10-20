@@ -357,7 +357,7 @@ if selected_q1 is not None:
 
                 if strict:
 
-                    st.success("Recommended method")
+                    st.success("Recommended approach")
 
                     for method in sorted(strict):
                         st.subheader(method)
@@ -381,7 +381,7 @@ if selected_q1 is not None:
 
                     if best:
 
-                        st.info("Best candidate method")
+                        st.info("Best candidate approach")
 
                         for method in best:
                             st.subheader(method)
@@ -405,15 +405,16 @@ if selected_q1 is not None:
                     )
 
                 # ------------------------------------------------
-                # NEW: Biodiversity Footprinting Guidance
+                # Biodiversity Footprinting Guidance
                 # ------------------------------------------------
 
                 if recommendation_found:
 
                     st.markdown("---")
 
-                    st.subheader(
-                        "Biodiversity Footprinting Guidance"
+                    st.markdown(
+                        "### Learn more about your suggested approach "
+                        "in the **Biodiversity Footprinting Guidance**."
                     )
 
                     st.write(
